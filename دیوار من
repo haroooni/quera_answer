@@ -1,0 +1,267 @@
+let number = readline()
+
+let value  = readline()
+
+let value2 = value.split(`
+`)
+
+let orders = []
+
+let users = []
+
+let adevrtise = []
+
+let favorite = []
+
+for (let i = 0; i < value2.length; i++) {
+    let user_repet = false
+    orders.push(value2[i].split(" "))
+    let order = orders[i]
+
+    if(order[0] == "register" ) {
+        if(users.length < 1 ) {
+            users.push(orders[i][1]);
+            console.log("registered successfully");
+        } else {
+            users.forEach(user => {
+                if(user == order[1]) {
+                    console.log("invalid username");
+                } else {
+                    users.push(orders[i][1]);
+                    console.log("registered successfully");
+                }
+            });
+        }
+    }
+
+    if(order[0] == "add_advertise" ) {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        });
+        let is_repeed_ad = false
+        adevrtise.forEach(advertis => {
+            if (advertis.name == order[2]) {
+                is_repeed_ad = true
+            }
+            });    
+
+            if(order[2]) {
+                if(is_register) {
+                    if(is_repeed_ad) {
+                        console.log("invalid title")
+                } else {
+                    let ad = {name : order[2] , user : order[1] , tag: order[2]}
+                    adevrtise.push(ad)
+                    console.log("posted successfully");
+                }
+            
+            } else {
+                console.log("invalid username");
+            }
+            } else {
+                if(is_register) {
+                    if(is_repeed_ad) {
+                        console.log("invalid title")
+                } else {
+                    let ad = {name : order[2] , user : order[1]}
+                    adevrtise.push(ad)
+                    console.log("posted successfully");
+                }
+            
+            } else {
+                console.log("invalid username");
+            }
+            }
+        
+    }
+
+    if(order[0] == "rem_advertise") {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        });
+
+        let is_repeed_ad = false
+        let is_login = false
+        adevrtise.forEach(advertis => {
+            if (advertis.name == order[2]) {
+                is_repeed_ad = true
+                if(advertis.user == order[1]) {
+                    is_login = true
+                }
+            }
+            }); 
+
+            if(is_register) {
+                if(is_repeed_ad) {
+                    if(is_login) {
+                        console.log("removed successfully");
+                    } else {
+                        console.log("access denied");
+                    }
+                } else {
+                    console.log("invalid title");
+                }
+            } else {
+                console.log('invalid username');
+            }
+        
+    }
+
+    if(order[0] == "list_my_advertises") {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        })
+
+        if(order[2]) {
+            if(is_register) {
+                let order_list = ""
+                adevrtise.forEach(orderd => {
+                if(orderd.user == order[1] , orderd.tag == order[2]) {
+                        order_list = order_list + orderd.name + " "
+                        console.log(order_list);
+                    }
+                    
+                });
+            } else {
+                console.log("invalid username");
+            }  
+        } else {
+            if(is_register) {
+                let order_list = ""
+                adevrtise.forEach(orderd => {
+                if(orderd.user == order[1]) {
+                        order_list = order_list + orderd.name + " "
+                        console.log(order_list);
+                    }
+                    
+                });
+            } else {
+                console.log("invalid username");
+            }
+        }
+    }
+
+    if(order[0] == 'add_favorite') {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        });
+
+        let is_true = false 
+        adevrtise.forEach(ad => {
+            if(ad.name == order[2]) {
+                is_true = true
+            }
+        })
+
+        let is_favorite = false
+        if (favorite.length < 1) {
+            is_favorite = true
+        }
+        favorite.forEach(elem => {
+            if(elem.name == order[2] , elem.user == order[1]) {
+            } else {
+                is_favorite = true
+            }
+        })
+
+        if(is_register) {
+            if(is_true) {
+                if(is_favorite) {
+                    let fav = {name : order[2] , user: order[1]}
+                    favorite.push(fav)
+                    console.log("added successfully");
+                } else {
+                    console.log("already favorite");
+                }
+            } else {
+                console.log("invalid title");
+            }
+        } else {
+            console.log("invalid username");
+        }
+    }
+
+    if(order[0] == "rem_favorite") {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        });
+
+        let is_true_ad = false 
+        adevrtise.forEach(ad => {
+            if(ad.name == order[2]) {
+                is_true_ad = true
+            }
+        })
+
+        let is_true_fav = false 
+        favorite.forEach(ad => {
+            if(ad.name == order[2]) {
+                is_true_fav = true
+            }
+        })
+
+        if(is_register) {
+            if(is_true_ad) {
+                if(is_true_fav){
+                    console.log("removed successfully");
+                } else {
+                    console.log("already not favorite");
+                }
+            } else {
+                console.log("invalid title");
+            }
+        } else {
+            console.log("invalid username");
+        }
+    }
+
+    if(order[0] == "list_favorite_advertises") {
+        let is_register = false
+        users.forEach(user => {
+            if(user == order[1]) {
+                is_register = true
+            }
+        });
+
+        if(order[2]) {
+            if(is_register) {
+                let fav_list = ""
+                favorite.forEach(elem => {
+                    if(elem.user == order[1] , elem.tag == order[2]) {
+                        fav_list = fav_list + elem.name + " "
+                        console.log(fav_list);
+                    }
+                });
+            } else {
+                console.log("invalid username");
+            }
+        } else {
+            if(is_register) {
+                let fav_list = ""
+                favorite.forEach(elem => {
+                    if(elem.user == order[1]) {
+                        fav_list = fav_list + elem.name + " "
+                        console.log(fav_list);
+                    }
+                });
+            } else {
+                console.log("invalid username");
+            }
+        }
+    }
+}
